@@ -5,6 +5,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // Import the rating bar package
 
 class StarRatingDialog extends StatefulWidget {
+  const StarRatingDialog({super.key});
+
   @override
   _StarRatingDialogState createState() => _StarRatingDialogState();
 }
@@ -15,12 +17,12 @@ class _StarRatingDialogState extends State<StarRatingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Rate this App'),
+      title: const Text('Rate this App'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text('Please rate this app:'),
-          SizedBox(
+          const Text('Please rate this app:'),
+          const SizedBox(
             height: 15,
           ),
           RatingBar.builder(
@@ -47,7 +49,7 @@ class _StarRatingDialogState extends State<StarRatingDialog> {
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: () {
@@ -55,11 +57,11 @@ class _StarRatingDialogState extends State<StarRatingDialog> {
             showToast(context);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) => const HomePage(),
               ),
             ); // Close the dialog
           },
-          child: Text('Submit'),
+          child: const Text('Submit'),
         ),
       ],
     );

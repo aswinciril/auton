@@ -1,3 +1,4 @@
+import 'package:auton/View/Authentication/view/OTP/number_login.dart';
 import 'package:auton/View/Authentication/view/details_page.dart';
 import 'package:auton/View/Authentication/view/signup_page.dart';
 import 'package:auton/View/Authentication/widgets/auth_button.dart';
@@ -145,7 +146,13 @@ class LoginPage extends StatelessWidget {
                             "assets/animations/login_animations/googlelogin.json",
                         width: 140),
                     LoginOptionsButton(
-                        onpressed: () {},
+                        onpressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => NumberLogin(),
+                            ),
+                          );
+                        },
                         animation:
                             "assets/animations/login_animations/otp_animation.json",
                         width: 140)

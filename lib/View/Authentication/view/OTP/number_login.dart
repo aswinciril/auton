@@ -17,7 +17,7 @@ class _MyWidgetState extends State<NumberLogin> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   TextEditingController phoneNumberController =
-      TextEditingController(text: "+91");
+      TextEditingController(text: "+91-");
   TextEditingController otpController = TextEditingController();
 
   Future<void> _verifyPhoneNumber() async {
@@ -102,7 +102,7 @@ class _MyWidgetState extends State<NumberLogin> {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.6,
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
               ),
               decoration: BoxDecoration(
@@ -113,14 +113,14 @@ class _MyWidgetState extends State<NumberLogin> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: TextField(
                 controller: phoneNumberController,
                 keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
               ),

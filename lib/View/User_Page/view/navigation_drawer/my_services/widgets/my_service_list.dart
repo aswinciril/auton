@@ -43,42 +43,67 @@ class MyServiceList extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          children: [
-            Text(
-              'Date: $date',
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 5.sp),
-            Text(
-              'Car Number: $carnum',
-              style: TextStyle(
-                fontSize: 12.sp,
-              ),
-            ),
-            SizedBox(height: 5.sp),
-            Text(
-              'Service Type: $serviceType',
-              style: TextStyle(
-                fontSize: 12.sp,
-              ),
-            ),
-            SizedBox(height: 5.sp),
-            Text(
-              'Location: $location',
-              maxLines: 2,
-              overflow: TextOverflow.visible,
-              style: TextStyle(
-                fontSize: 12.sp,
-              ),
-            ),
-            SizedBox(height: 5.sp),
-          ],
-        ),
+        child: ServiceHistoryList(
+            date: date,
+            carnum: carnum,
+            serviceType: serviceType,
+            location: location),
       ),
+    );
+  }
+}
+
+class ServiceHistoryList extends StatelessWidget {
+  const ServiceHistoryList({
+    super.key,
+    required this.date,
+    required this.carnum,
+    required this.serviceType,
+    required this.location,
+  });
+
+  final String date;
+  final String carnum;
+  final String serviceType;
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Date: $date',
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 10.sp),
+        Text(
+          'Car Number: $carnum',
+          style: TextStyle(
+            fontSize: 12.sp,
+          ),
+        ),
+        SizedBox(height: 5.sp),
+        Text(
+          'Service Type: $serviceType',
+          style: TextStyle(
+            fontSize: 12.sp,
+          ),
+        ),
+        SizedBox(height: 5.sp),
+        Text(
+          'Location: $location',
+          maxLines: 2,
+          overflow: TextOverflow.visible,
+          style: TextStyle(
+            fontSize: 12.sp,
+          ),
+        ),
+        SizedBox(height: 5.sp),
+      ],
     );
   }
 }

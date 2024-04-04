@@ -1,9 +1,13 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:auton/View/User_Page/view/navigation_drawer/user_profile/user_profile_heading.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:auton/View/Authentication/view/details_page.dart';
 import 'package:auton/View/Authentication/widgets/auth_button.dart';
 import 'package:auton/View/User_Page/view/book_service/widgets/bookservice_textfield.dart';
+
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -15,20 +19,55 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _numberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
 
   String _profileImagePath = '';
   String _coverImagePath = '';
 
 //picking profile pic from gallery
 
+  //saving propic to firebaaseee
+
+  Future<void> _uploadImageToFirebaseStorage(String imagePath) async {
+    if (imagePath.isNotEmpty) {
+      File imageFile = File(imagePath);
+      String fileName = 'profile_imagess'; // Change the filename as needed
+      firebase_storage.Reference ref =
+          firebase_storage.FirebaseStorage.instance.ref().child(fileName);
+      await ref.putFile(imageFile);
+      String downloadURL = await ref.getDownloadURL();
+      log('File uploaded to Firebase Storage: $downloadURL');
+
+      // Update _profileImagePath with the download URL
+      setState(() {
+        _profileImagePath = downloadURL;
+      });
+    }
+  }
+
+  Future<void> _uploadCoverImageToFirebaseStorage(String imagePath) async {
+    if (imagePath.isNotEmpty) {
+      File imageFile = File(imagePath);
+      String fileName = 'coverr_imagess'; // Change the filename as needed
+      firebase_storage.Reference ref =
+          firebase_storage.FirebaseStorage.instance.ref().child(fileName);
+      await ref.putFile(imageFile);
+      String downloadURL = await ref.getDownloadURL();
+      log('Cover picture uploaded to Firebase Storage: $downloadURL');
+
+      // Update _coverImagePath with the download URL
+      setState(() {
+        _coverImagePath = downloadURL;
+      });
+    }
+  }
+
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
       // Save the selected image file path to _profileImagePath
       setState(() {
         _profileImagePath = pickedFile.path; // Update the class-level variable
@@ -43,14 +82,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
       // Save the selected image file path to _profileImagePath
       setState(() {
         _coverImagePath = pickedFile.path; // Update the class-level variable
       });
     }
   }
-
 //////////////////////////////////////////
 
   // String _userDetails() {
@@ -82,8 +119,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   image: DecorationImage(
                     fit: BoxFit.fill,
                     image: _coverImagePath.isNotEmpty
-                        ? FileImage(File(_coverImagePath))
-                            as ImageProvider<Object>
+                        ? NetworkImage(_coverImagePath) as ImageProvider<Object>
                         : const AssetImage(
                             'assets/userprofile/profilecover.jpg'),
                   ),
@@ -93,8 +129,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 bottom: 8.sp,
                 right: 8.sp,
                 child: GestureDetector(
-                  onTap: () {
-                    _pickCoverImage();
+                  onTap: () async {
+                    await _pickCoverImage();
+                    await _uploadCoverImageToFirebaseStorage(_coverImagePath);
                   }, // Define the function to handle editing the cover image
                   child: Icon(
                     Icons.edit,
@@ -133,7 +170,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     child: CircleAvatar(
                       radius: 55.sp,
                       backgroundImage: _profileImagePath.isNotEmpty
-                          ? FileImage(File(_profileImagePath))
+                          ? NetworkImage(_profileImagePath)
                               as ImageProvider<Object>
                           : const AssetImage('assets/userprofile/dp.jpg'),
                     ),
@@ -148,8 +185,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      _pickImage();
+                    onTap: () async {
+                      await _pickImage();
+                      await _uploadImageToFirebaseStorage(_profileImagePath);
                     },
                     child: Text(
                       'change profile photo',

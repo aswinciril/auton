@@ -42,10 +42,10 @@ class AboutUs extends StatelessWidget {
                   'About Us',
                   style: GoogleFonts.raleway(
                     textStyle: TextStyle(
-                      color: Color.fromARGB(255, 66, 5, 0),
+                      color: const Color.fromARGB(255, 66, 5, 0),
                       fontSize: 28.sp,
                       fontWeight: FontWeight.bold,
-                      shadows: [
+                      shadows: const [
                         Shadow(
                           color: Colors.white, // Shadow color
                           offset:

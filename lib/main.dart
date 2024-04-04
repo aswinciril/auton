@@ -1,6 +1,7 @@
 import 'package:auton/View/Authentication/view/details_page.dart';
 import 'package:auton/View/Splash/splash_screen.dart';
 import 'package:auton/View/User_Page/view/home_page/home_page.dart';
+import 'package:auton/controller/profile_image_path_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -33,6 +34,9 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(
+        create: (context) => ProfileImagePathProvider(),
+      ),
       ChangeNotifierProvider(
         create: (context) => NameProvider(),
       ),
